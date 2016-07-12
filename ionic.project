@@ -1,0 +1,9 @@
+{
+  "name": "whatsapp",
+  "app_id": "",
+  "gulpStartupTasks": [
+    "webpack",
+    "sass",
+    "watch"
+  ]
+}
