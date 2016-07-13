@@ -7,7 +7,7 @@
 }
 
 .chat {
-  background-image: url(/img/chat-background.jpg);
+  background-image: url(../img/chat-background.jpg);
   background-color: #E0DAD6;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -58,12 +58,12 @@
 
   &.message-other::before {
     left: -11px;
-    background-image: url(/img/message-other.png)
+    background-image: url(../img/message-other.png)
   }
 
   &.message-mine::before {
     right: -11px;
-    background-image: url(/img/message-mine.png)
+    background-image: url(../img/message-mine.png)
   }
 
   .message-text {

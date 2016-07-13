@@ -1,18 +1,12 @@
-/*import { _ } from 'meteor/underscore';
+import { _ } from 'meteor/underscore';
 import { Controller } from 'angular-ecmascript/module-helpers';
  
 export default class LoginCtrl extends Controller {
-  static $inject = ['$state', '$ionicLoading', '$ionicPopup', '$log', '$meteor']
-  
-  constructor() {
-    super();
-    console.log("login created");
-  } 
-
+  static $inject = ['$state', '$ionicLoading', '$ionicPopup', '$log', '$meteor'] 
 
   login() {
     if (_.isEmpty(this.username) || _.isEmpty(this.password)) return;
- 
+
     const confirmPopup = this.$ionicPopup.confirm({
       title: 'Login Confirmation',
       template: '<div>Is your login information correct?</div>',
@@ -22,24 +16,30 @@ export default class LoginCtrl extends Controller {
       cancelText: 'edit',
       cancelType: 'button-dark button-clear'
     });
- 
+    
+    //const ionicLoading = this.$ionicLoading; 
+    
+    console.log(this);
+
+
     confirmPopup.then((res) => {
       if (!res) return;
- 
       this.$ionicLoading.show({
+      //this.$ionicLoading.show({
         template: 'Sending login information'
       });
- 
+      
+      const context = this;
+
       this.$meteor.loginWithPassword(this.username, this.password)
         .then(function() {
           console.log('Login success ');
           //alert("logged in: " + $scope.credentials.username);
-          this.$ionicLoading.hide();
-          this.$state.go('tab.chats');
+          //this.$ionicLoading.hide();
+          context.redirectToHome();
       }, function(_error) {
           console.log('Login error - ', _error);
-          this.$ionicLoading.hide();
-          this.handleError(_error);
+          context.redirectToErrorHandling(_error);
       });
     
     });
@@ -47,7 +47,7 @@ export default class LoginCtrl extends Controller {
 
   createAccount() {
     if (_.isEmpty(this.username) || _.isEmpty(this.password)) return;
- 
+    
     const confirmPopup = this.$ionicPopup.confirm({
       title: 'Login Confirmation',
       template: '<div>Is your login information correct?</div>',
@@ -57,34 +57,45 @@ export default class LoginCtrl extends Controller {
       cancelText: 'edit',
       cancelType: 'button-dark button-clear'
     });
- 
+    
     confirmPopup.then((res) => {
       if (!res) return;
  
       this.$ionicLoading.show({
         template: 'Sending login information'
       });
+
+      const context = this;
  
       this.$meteor.createUser({
         username: this.username,
-        email: this.username,
         password: this.password,
         profile: {
+          name: this.username,
           createdOn: new Date()
         }
       }).then(function(_response) {
-        this.$ionicLoading.hide();
         console.log('doCreateAccountAction success');
-        this.$state.go('tab.chats');
+        context.redirectToHome();
       }, function(_error) {
-        this.$ionicLoading.hide();
         console.log('Login error - ', _error);
-        this.handleError(_error);
+        context.redirectToErrorHandling(_error);
       });
     
     }); 
   }
- 
+
+
+  redirectToHome() {
+      this.$ionicLoading.hide();
+      this.$state.go('profile');
+  }
+
+  redirectToErrorHandling(e) {
+      this.$ionicLoading.hide();
+      this.handleError(e);  
+  }
+
   handleError(err) {
     this.$log.error('Login error ', err);
  
@@ -95,4 +106,3 @@ export default class LoginCtrl extends Controller {
     });
   }
 }
-*/

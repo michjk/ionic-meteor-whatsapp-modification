@@ -1,30 +1,50 @@
 import { _ } from 'meteor/underscore';
+import { Meteor } from 'meteor/meteor';
 import { Config, Runner } from 'angular-ecmascript/module-helpers';
 
-export default class RoutesConfig extends Config {
+class RoutesConfig extends Config {
   static $inject = ['$stateProvider', '$urlRouterProvider']
 
   constructor() {
     super(...arguments);
  
-    //this.isAuthorized = ['$auth', this::this.isAuthorized];
+    this.isAuthorized = ['$auth', this::this.isAuthorized];
   }
- 
 
   configure() {
     this.$stateProvider
-      //.state('login', {
-      //  url: '/login',
-      //  templateUrl: 'templates/login.html',
-      //  controller: 'LoginCtrl as logger'
-      //})
+      .state('login', {
+        url: '/login',
+        templateUrl: 'templates/login.html',
+        controller: 'LoginCtrl as logger'
+      })
+      .state('profile', {
+        url: '/profile',
+        templateUrl: 'templates/profile.html',
+        controller: 'ProfileCtrl as profile',
+        resolve: {
+          user: this.isAuthorized
+        }
+      })
       .state('tab', {
         url: '/tab',
         abstract: true,
         templateUrl: 'templates/tabs.html',
-        //resolve: {
-        //  user: this.isAuthorized
-        //}
+        resolve: {
+          user: this.isAuthorized,
+          chats() {
+            return Meteor.subscribe('chats');
+          }
+        }
+      })
+      .state('tab.settings', {
+        url: '/settings',
+        views: {
+          'tab-settings': {
+            templateUrl: 'templates/settings.html',
+            controller: 'SettingsCtrl as settings',
+          }
+        }
       })
       .state('tab.chats', {
         url: '/chats',
@@ -47,12 +67,12 @@ export default class RoutesConfig extends Config {
 
     this.$urlRouterProvider.otherwise('tab/chats');
   }
-  /*
+  
   isAuthorized($auth) {
     return $auth.awaitUser();
-  }*/
+  }
 }
-/*
+
 class RoutesRunner extends Runner {
   static $inject = ['$rootScope', '$state']
  
@@ -68,5 +88,5 @@ class RoutesRunner extends Runner {
 }
  
 export default [RoutesConfig, RoutesRunner];
-*/
+
 
