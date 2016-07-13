@@ -13,9 +13,10 @@ import 'script!lib/angular-moment/angular-moment';
 import 'script!lib/accounts-base-client-side/dist/accounts-base-client-side.bundle';
 import 'script!lib/accounts-password-client-side/dist/accounts-password-client-side.bundle';
 import 'script!lib/angular-meteor-auth/dist/angular-meteor-auth.bundle';
-
+import 'script!lib/ngCordova/dist/ng-cordova';
 // api
 //import 'api/methods';
 
 // app
 import './app';
+

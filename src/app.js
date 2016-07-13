@@ -23,7 +23,8 @@ Angular.module(App, [
   'angular-meteor',
   'angular-meteor.auth',
   'angularMoment',
-  'ionic'
+  'ionic',
+  'ngCordova'
 ]);
 
 console.log("app initialization");
